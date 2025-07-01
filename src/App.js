@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Welcome from './pages/Welcome';
+import Login from './pages/login';
+import Dashboard from './pages/Dashboard';
 
-function App() {
+const App = () => {
+  const [step, setStep] = useState(1);  // 1: Welcome, 2: Login, 3: Dashboard
+  const [user, setUser] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {step === 1 && <Welcome onNext={() => setStep(2)} />}
+      {step === 2 && <Login onLoginSuccess={(userData) => {
+        setUser(userData);
+        setStep(3);
+      }} />}
+      {step === 3 && <Dashboard user={user} />}
+    </>
   );
-}
+};
 
 export default App;
