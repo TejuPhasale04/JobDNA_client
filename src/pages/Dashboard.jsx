@@ -13,7 +13,7 @@ const Dashboard = ({ user }) => {
 
     try {
       const res = await axios.post(
-        "https://jobdna.onrender.com/upload-resume",
+        "https://jobdna-server.onrender.com/upload-resume",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
