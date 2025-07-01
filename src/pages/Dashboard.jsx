@@ -7,12 +7,19 @@ const Dashboard = ({ user }) => {
 
   const handleResumeUpload = async () => {
     if (!resumeFile) return alert("Please select a resume file.");
+
     const formData = new FormData();
     formData.append("resume", resumeFile);
+
     try {
-      const res = await axios.post("http://localhost:5000/upload-resume", formData);
+      const res = await axios.post(
+        "https://jobdna-api.onrender.com/upload-resume", // 🔁 Change this to your actual backend URL
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
       setJobRole(res.data.role);
     } catch (err) {
+      console.error(err.response?.data || err.message);
       alert("Upload failed. Try again.");
     }
   };
@@ -23,7 +30,6 @@ const Dashboard = ({ user }) => {
         <h1 className="text-3xl font-bold text-green-700 mb-2">🔍 JobDNA Dashboard</h1>
         <p className="text-sm text-gray-500 mb-6">"A perfect role for tech-savvy innovators!"</p>
 
-        {/* Resume Upload */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Upload Resume (PDF)</label>
           <input
@@ -42,7 +48,6 @@ const Dashboard = ({ user }) => {
           </button>
         </div>
 
-        {/* Output */}
         {jobRole && (
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-lg text-gray-700">🎯 Predicted Job Role:</p>
